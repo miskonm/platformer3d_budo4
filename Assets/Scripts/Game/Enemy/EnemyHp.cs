@@ -12,15 +12,7 @@ namespace Game.Enemy
         // TODO: Debug only, remove later
         [SerializeField] private int _current;
 
-        public int Current
-        {
-            get => _current;
-            set => _current = value;
-        }
-
-        public int Max { get; private set; }
-        
-        private string Id { get; set; }
+      
 
         private void Awake()
         {
