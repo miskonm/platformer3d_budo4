@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac88d866e2249fabc0add2532f7e790, type: 3}
+  m_Name: GollumConfig
+  m_EditorClassIdentifier: 
+  _enemyType: 1
+  _prefab: {fileID: 7468191682321012764, guid: cdb83b9d97404468884cc3970de7b03e, type: 3}

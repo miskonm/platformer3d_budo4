@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac88d866e2249fabc0add2532f7e790, type: 3}
+  m_Name: FireMagConfig
+  m_EditorClassIdentifier: 
+  _enemyType: 2
+  _prefab: {fileID: 1571142756218895144, guid: 8507eb9c7487d4070bd7f3a7c62fcd8c, type: 3}
