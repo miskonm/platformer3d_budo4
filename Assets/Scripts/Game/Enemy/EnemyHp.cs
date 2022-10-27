@@ -17,8 +17,9 @@ namespace Game.Enemy
             get => _current;
             set => _current = value;
         }
-        
 
+        public int Max { get; private set; }
+        
         private string Id { get; set; }
 
         private void Awake()
@@ -27,40 +28,15 @@ namespace Game.Enemy
             Current = Max;
         }
 
-        private void Test()
+        public void Load(PersistenceData data)
         {
+            PersistenceEnemyData persistenceEnemyData = data.EnemiesData.FirstOrDefault(x => x.Id == Id);
             if (persistenceEnemyData == null)
             {
                 Debug.LogWarning($"{name} no data loaded");
                 return;
             }
-
-            Current = persistenceEnemyData.Hp;
-            if (persistenceEnemyData == null)
-            {
-                Debug.LogWarning($"{name} no data loaded");
-                return;
-            }
-
-            void Load(PersistenceData data)
-            {
-                PersistenceEnemyData persistenceEnemyData = data.EnemiesData.FirstOrDefault(x => x.Id == Id);
-                if (persistenceEnemyData == null)
-                {
-                    Debug.LogWarning($"{name} no data loaded");
-                    return;
-                }
-
-                Current = persistenceEnemyData.Hp;
-            }
-
-            Current = persistenceEnemyData.Hp;
-            if (persistenceEnemyData == null)
-            {
-                Debug.LogWarning($"{name} no data loaded");
-                return;
-            }
-
+            
             Current = persistenceEnemyData.Hp;
         }
 
@@ -75,11 +51,9 @@ namespace Game.Enemy
                 };
                 data.EnemiesData.Add(persistenceEnemyData);
             }
-
+            
             persistenceEnemyData.Hp = Current;
         }
-
-        public int Max { get; private set; }
 
         public void SetId(string id) =>
             Id = id;
