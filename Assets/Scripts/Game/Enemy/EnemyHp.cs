@@ -17,6 +17,7 @@ namespace Game.Enemy
             get => _current;
             set => _current = value;
         }
+        
 
         private string Id { get; set; }
 
