@@ -1,43 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Enemy;
+using Services.Assets;
 using UnityEngine;
 
 namespace Services.Config
 {
-    public class ConfigService : MonoBehaviour
+    public class ConfigService : IConfigService
     {
         private const string Tag = nameof(ConfigService);
-        private const string EnemiesConfigsPath = "Configs/Enemies";
-        private const string LevelConfigsPath = "Configs/Level";
-        
-        private static ConfigService _instance;
 
         private Dictionary<EnemyType, EnemyConfig> _enemyConfigsByType;
         private Dictionary<string, LevelConfig> _levelConfigBySceneName;
 
-        public static ConfigService Instance => _instance;
-
-        private void Awake()
-        {
-            if (_instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-
         public void Bootstrap()
         {
             _enemyConfigsByType = Resources
-                .LoadAll<EnemyConfig>(EnemiesConfigsPath)
+                .LoadAll<EnemyConfig>(AssetPath.EnemiesConfigsPath)
                 .ToDictionary(x => x.EnemyType, x => x);
-            
+
             _levelConfigBySceneName = Resources
-                .LoadAll<LevelConfig>(LevelConfigsPath)
+                .LoadAll<LevelConfig>(AssetPath.LevelConfigsPath)
                 .ToDictionary(x => x.SceneName, x => x);
         }
 
@@ -51,7 +34,7 @@ namespace Services.Config
 
             return _enemyConfigsByType[enemyType];
         }
-        
+
         public LevelConfig GetLevelConfig(string sceneName)
         {
             if (!_levelConfigBySceneName.ContainsKey(sceneName))

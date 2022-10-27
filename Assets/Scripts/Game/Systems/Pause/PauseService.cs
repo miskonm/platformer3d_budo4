@@ -3,20 +3,11 @@ using UnityEngine;
 
 namespace Game.Systems.Pause
 {
-    public class PauseService : MonoBehaviour
+    public class PauseService : MonoBehaviour, IPauseService
     {
-        private static PauseService _instance;
-
         public event Action<bool> OnChanged;
-        
-        public static PauseService Instance => _instance;
-        public bool IsPaused { get; private set; }
 
-        private void Awake()
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        public bool IsPaused { get; private set; }
 
         private void Update()
         {

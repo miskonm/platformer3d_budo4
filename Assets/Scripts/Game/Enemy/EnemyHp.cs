@@ -1,61 +1,28 @@
-using System.Linq;
-using Services.Persistence;
-using Services.Save;
+using System;
 using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class EnemyHp : MonoBehaviour, ISaveLoadDataPiece
+    public class EnemyHp : MonoBehaviour
     {
-        [SerializeField] private int _max;
-
         // TODO: Debug only, remove later
         [SerializeField] private int _current;
+
+        public event Action<int> OnChanged;
 
         public int Current
         {
             get => _current;
-            set => _current = value;
-        }
-
-        public int Max { get; private set; }
-        
-        private string Id { get; set; }
-
-        private void Awake()
-        {
-            Max = _max;
-            Current = Max;
-        }
-
-        public void Load(PersistenceData data)
-        {
-            PersistenceEnemyData persistenceEnemyData = data.EnemiesData.FirstOrDefault(x => x.Id == Id);
-            if (persistenceEnemyData == null)
+            set
             {
-                Debug.LogWarning($"{name} no data loaded");
-                return;
+                if (_current == value)
+                    return;
+
+                _current = value;
+                OnChanged?.Invoke(_current);
             }
-            
-            Current = persistenceEnemyData.Hp;
         }
 
-        public void Save(PersistenceData data)
-        {
-            PersistenceEnemyData persistenceEnemyData = data.EnemiesData.FirstOrDefault(x => x.Id == Id);
-            if (persistenceEnemyData == null)
-            {
-                persistenceEnemyData = new PersistenceEnemyData()
-                {
-                    Id = Id,
-                };
-                data.EnemiesData.Add(persistenceEnemyData);
-            }
-            
-            persistenceEnemyData.Hp = Current;
-        }
-
-        public void SetId(string id) =>
-            Id = id;
+        public int Max { get; set; }
     }
 }

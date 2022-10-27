@@ -3,28 +3,12 @@ using UnityEngine;
 
 namespace Services.Persistence
 {
-    public class PersistenceService : MonoBehaviour
+    public class PersistenceService : IPersistenceService
     {
         private const string Tag = nameof(PersistenceService);
         private const string DataSaveKey = "Game/PersistenceData";
-        
-        private static PersistenceService _instance;
 
-        public static PersistenceService Instance => _instance;
-        
         public PersistenceData Data { get; private set; }
-
-        private void Awake()
-        {
-            if (_instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
 
         public void Bootstrap()
         {
