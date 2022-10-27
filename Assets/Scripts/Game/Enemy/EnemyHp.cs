@@ -17,6 +17,7 @@ namespace Game.Enemy
             get => _current;
             set => _current = value;
         }
+        
 
         public int Max { get; private set; }
         
