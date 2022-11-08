@@ -1,4 +1,5 @@
 using Services.Config;
+using Services.Forecast;
 using Services.Persistence;
 using Services.SceneLoading;
 using UnityEngine;
@@ -11,11 +12,13 @@ namespace Infrastructure.Launcher
         private IPersistenceService _persistenceService;
         private IConfigService _configService;
         private ISceneLoadingService _sceneLoadingService;
+        private IForecastService _forecastService;
 
         [Inject]
         public void Construct(IPersistenceService persistenceService, IConfigService configService,
-            ISceneLoadingService sceneLoadingService)
+            ISceneLoadingService sceneLoadingService, IForecastService forecastService)
         {
+            _forecastService = forecastService;
             _persistenceService = persistenceService;
             _configService = configService;
             _sceneLoadingService = sceneLoadingService;
@@ -25,7 +28,12 @@ namespace Infrastructure.Launcher
         {
             _persistenceService.Bootstrap();
             _configService.Bootstrap();
+            _forecastService.LoadData();
+            OnForecastLoaded();
+        }
 
+        private void OnForecastLoaded()
+        {
             _sceneLoadingService.Load(MenuLauncher.SceneName);
         }
     }
