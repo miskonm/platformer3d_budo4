@@ -7,11 +7,9 @@ namespace Services.Forecast
         event Action OnReady;
         
         bool IsReady { get; }
+        ForecastData Data { get; }
+
         
         void LoadData(Action completeCallback = null);
-
-        // TODO: Remove
-        void ShowScreen();
-        void HideScreen();
     }
 }

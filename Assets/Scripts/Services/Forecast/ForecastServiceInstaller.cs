@@ -1,12 +1,9 @@
-using UnityEngine;
 using Zenject;
 
 namespace Services.Forecast
 {
     public class ForecastServiceInstaller : MonoInstaller
     {
-        [SerializeField] private ForecastUiModuleSettings _moduleSettings;
-
         public override void InstallBindings()
         {
             Container
@@ -22,8 +19,6 @@ namespace Services.Forecast
 
             subContainer.Bind<ForecastWebModule>().AsSingle();
             subContainer.Bind<ForecastDataMapper>().AsSingle();
-            subContainer.Bind<ForecastUiModule>().AsSingle();
-            subContainer.BindInstance(_moduleSettings);
         }
     }
 }
