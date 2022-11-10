@@ -1,8 +1,8 @@
 using Services.Config;
 using Services.Forecast;
+using Services.Location;
 using Services.Persistence;
 using Services.SceneLoading;
-using UnityEngine;
 using Zenject;
 
 namespace Infrastructure.Launcher
@@ -13,11 +13,14 @@ namespace Infrastructure.Launcher
         private IConfigService _configService;
         private ISceneLoadingService _sceneLoadingService;
         private IForecastService _forecastService;
+        private ILocationService _locationService;
 
         [Inject]
         public void Construct(IPersistenceService persistenceService, IConfigService configService,
-            ISceneLoadingService sceneLoadingService, IForecastService forecastService)
+            ISceneLoadingService sceneLoadingService, IForecastService forecastService,
+            ILocationService locationService)
         {
+            _locationService = locationService;
             _forecastService = forecastService;
             _persistenceService = persistenceService;
             _configService = configService;
@@ -28,8 +31,12 @@ namespace Infrastructure.Launcher
         {
             _persistenceService.Bootstrap();
             _configService.Bootstrap();
-            _forecastService.LoadData();
-            OnForecastLoaded();
+            
+            _locationService.Bootstrap(() =>
+            {
+                _forecastService.LoadData();
+                OnForecastLoaded();
+            });
         }
 
         private void OnForecastLoaded()

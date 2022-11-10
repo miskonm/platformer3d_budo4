@@ -6,18 +6,20 @@ namespace Services.Forecast
     {
         private readonly ForecastWebModule _webModule;
         private readonly ForecastUiModule _uiModule;
+        private readonly ForecastDataMapper _dataMapper;
 
-        public ForecastService(ForecastWebModule webModule, ForecastUiModule uiModule)
+        public ForecastService(ForecastWebModule webModule, ForecastUiModule uiModule, ForecastDataMapper dataMapper)
         {
             _webModule = webModule;
             _uiModule = uiModule;
+            _dataMapper = dataMapper;
         }
 
         public event Action OnReady;
 
         public bool IsReady { get; private set; }
-        
-        private ForecastDTO Dto { get; set; }
+
+        private ForecastData Data { get; set; }
 
         public void LoadData(Action completeCallback)
         {
@@ -25,8 +27,7 @@ namespace Services.Forecast
             {
                 if (isSuccess)
                 {
-                    // TODO: Map data
-                    Dto = dto;
+                    Data = _dataMapper.Map(dto);
                     IsReady = true;
                     OnReady?.Invoke();
                 }
@@ -40,7 +41,7 @@ namespace Services.Forecast
             if (!IsReady)
                 return;
 
-            _uiModule.ShowScreen(Dto);
+            _uiModule.ShowScreen(Data);
         }
 
         public void HideScreen()

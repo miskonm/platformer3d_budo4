@@ -13,12 +13,21 @@ namespace Services.Forecast
             _settings = settings;
         }
 
-        public void ShowScreen(ForecastDTO dto)
+        // public void ShowScreen(ForecastDTO dto)
+        // {
+        //     if (_screen == null)
+        //         CreateScreen();
+        //
+        //     _screen.Setup(dto);
+        //     _screen.gameObject.SetActive(true);
+        // }
+        
+        public void ShowScreen(ForecastData data)
         {
             if (_screen == null)
                 CreateScreen();
 
-            _screen.Setup(dto);
+            _screen.Setup(data);
             _screen.gameObject.SetActive(true);
         }
 
