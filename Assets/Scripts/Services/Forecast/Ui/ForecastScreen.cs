@@ -1,6 +1,8 @@
+using System;
 using Services.UI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Services.Forecast.Ui
 {
@@ -11,7 +13,15 @@ namespace Services.Forecast.Ui
         [SerializeField] private TextMeshProUGUI _windLabel;
         [SerializeField] private TextMeshProUGUI _dateLabel;
         [SerializeField] private TextMeshProUGUI _seaLevelLabel;
-        
+        [SerializeField] private Button _testButton;
+
+        public event Action OnTestButtonClicked;
+
+        private void Awake()
+        {
+            // _testButton.onClick.AddListener(() => OnTestButtonClicked?.Invoke());
+        }
+
         public void Setup(ForecastData data)
         {
             _cityLabel.text = $"{data.CityName}";

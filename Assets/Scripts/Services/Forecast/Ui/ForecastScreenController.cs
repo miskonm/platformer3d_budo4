@@ -1,5 +1,6 @@
 using Services.Assets;
 using Services.UI;
+using UnityEngine;
 
 namespace Services.Forecast.Ui
 {
@@ -7,7 +8,8 @@ namespace Services.Forecast.Ui
     {
         private readonly IForecastService _forecastService;
 
-        public ForecastScreenController(IAssetsService assetsService, IForecastService forecastService) : base(assetsService)
+        public ForecastScreenController(IForecastService forecastService, IAssetsService assetsService,
+            Transform parentTransform) : base(assetsService, parentTransform)
         {
             _forecastService = forecastService;
         }
@@ -15,8 +17,27 @@ namespace Services.Forecast.Ui
         protected override void OnShowBegin()
         {
             base.OnShowBegin();
-            
+
             Screen.Setup(_forecastService.Data);
+        }
+
+        protected override void OnShowEnd()
+        {
+            base.OnShowEnd();
+
+            Screen.OnTestButtonClicked += OnTestButtonClicked;
+        }
+
+        protected override void OnHideBegin()
+        {
+            Screen.OnTestButtonClicked -= OnTestButtonClicked;
+
+            base.OnHideBegin();
+        }
+
+        private void OnTestButtonClicked()
+        {
+            _forecastService.LoadDataAsync(); // This is example
         }
     }
 }

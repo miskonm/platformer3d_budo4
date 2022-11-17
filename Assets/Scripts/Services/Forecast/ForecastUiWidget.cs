@@ -15,6 +15,8 @@ namespace Services.Forecast
         private IUiService _uiService;
         private bool _isShowed;
 
+        private ForecastScreenController _screenController;
+
         [Inject]
         public void Construct(IForecastService forecastService, IUiService uiService)
         {
@@ -24,6 +26,7 @@ namespace Services.Forecast
 
         private void Start()
         {
+            _screenController = _uiService.GetController<ForecastScreenController>();
             _button.onClick.AddListener(OnButtonClicked);
             OnForecastReady();
             _forecastService.OnReady += OnForecastReady;
@@ -31,6 +34,9 @@ namespace Services.Forecast
 
         private void OnDestroy()
         {
+            if (_screenController.IsShowed)
+                _screenController.Hide();
+            
             _forecastService.OnReady -= OnForecastReady;
         }
 
@@ -45,11 +51,11 @@ namespace Services.Forecast
 
             if (_isShowed)
             {
-                _uiService.ShowScreen<ForecastScreenController>();
+                _screenController.Show();
             }
             else
             {
-                _uiService.HideScreen<ForecastScreenController>();
+                _screenController.Hide();
             }
         }
     }

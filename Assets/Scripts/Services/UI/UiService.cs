@@ -7,11 +7,13 @@ namespace Services.UI
     public class UiService : IUiService
     {
         private readonly UiFactory _factory;
+        private readonly Transform _parentTransform;
         private readonly Dictionary<Type, ScreenController> _controllersByType = new();
 
-        public UiService(UiFactory factory)
+        public UiService(UiFactory factory, Transform parentTransform)
         {
             _factory = factory;
+            _parentTransform = parentTransform;
         }
 
         public T GetController<T>() where T : ScreenController
@@ -31,7 +33,7 @@ namespace Services.UI
 
         private T CreateController<T>() where T : ScreenController
         {
-            T controller = _factory.Create<T>();
+            T controller = _factory.Create<T>(_parentTransform);
             if (controller == null)
             {
                 Debug.LogError($"Can't create controller for type '{typeof(T)}'");

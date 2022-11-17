@@ -1,5 +1,4 @@
-using System;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace Services.Location
 {
@@ -12,14 +11,12 @@ namespace Services.Location
         
         public bool IsValid { get; private set; }
         public Coords Coords { get; private set; }
-
-        public void Bootstrap(Action completeCallback = null)
+        
+        public async UniTask BootstrapAsync()
         {
-            Debug.Log($"[{Tag},{nameof(Bootstrap)}]");
-            
             IsValid = true;
             Coords = new Coords(53.904541f, 27.561523f);
-            completeCallback?.Invoke();
+            await UniTask.CompletedTask;
         }
     }
 }

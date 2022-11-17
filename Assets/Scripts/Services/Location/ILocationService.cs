@@ -1,4 +1,4 @@
-using System;
+using Cysharp.Threading.Tasks;
 
 namespace Services.Location
 {
@@ -7,6 +7,6 @@ namespace Services.Location
         bool IsValid { get; }
         Coords Coords { get; } 
         
-        void Bootstrap(Action completeCallback = null);
+        UniTask BootstrapAsync();
     }
 }

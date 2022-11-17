@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 namespace Services.UI
@@ -11,7 +12,7 @@ namespace Services.UI
             _instantiator = instantiator;
         }
 
-        public T Create<T>() where T : ScreenController =>
-            _instantiator.Instantiate<T>();
+        public T Create<T>(Transform parentTransform) where T : ScreenController =>
+            _instantiator.Instantiate<T>(new []{parentTransform});
     }
 }

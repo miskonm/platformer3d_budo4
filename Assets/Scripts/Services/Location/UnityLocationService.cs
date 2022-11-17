@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using Services.Coroutine;
 using UnityEngine;
 
@@ -14,18 +15,26 @@ namespace Services.Location
         public bool IsValid { get; private set; }
         public Coords Coords { get; private set; }
 
+        public Coords GetCoords() =>
+            Coords;
+
         public UnityLocationService(ICoroutineRunner coroutineRunner)
         {
             _coroutineRunner = coroutineRunner;
         }
 
-        public void Bootstrap(Action completeCallback)
+        public async UniTask BootstrapAsync()
         {
+            UniTaskCompletionSource completionSource = new UniTaskCompletionSource();
             _coroutineRunner.StartCoroutine(RequestLocation(isSuccess =>
             {
                 IsValid = isSuccess;
-                completeCallback?.Invoke();
+                completionSource.TrySetResult();
             }));
+
+            await completionSource.Task;
+            
+            Debug.LogError("olol");
         }
 
         private IEnumerator RequestLocation(Action<bool> completeCallback)
@@ -66,7 +75,7 @@ namespace Services.Location
             }
 
             // If the connection succeeded, this retrieves the device's current location and displays it in the Console window.
-            Debug.Log($"[{Tag}:{nameof(RequestLocation)}] Location: " + Input.location.lastData.latitude + 
+            Debug.Log($"[{Tag}:{nameof(RequestLocation)}] Location: " + Input.location.lastData.latitude +
                 " " + Input.location.lastData.longitude + " " +
                 Input.location.lastData.altitude + " " + Input.location.lastData.horizontalAccuracy + " " +
                 Input.location.lastData.timestamp);

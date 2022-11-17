@@ -4,7 +4,6 @@ using Services.Coroutine;
 using Services.Location;
 using Services.Persistence;
 using Services.SceneLoading;
-using Services.UI;
 using Services.Web;
 using Zenject;
 
@@ -21,7 +20,6 @@ namespace Infrastructure.Installers
             AssetsServiceInstaller.Install(Container);
             LocationServiceInstaller.Install(Container);
             HttpWebRequestInstaller.Install(Container);
-            UiServiceInstaller.Install(Container);
         }
     }
 }

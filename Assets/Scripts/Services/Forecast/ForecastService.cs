@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 
 namespace Services.Forecast
 {
@@ -19,8 +20,10 @@ namespace Services.Forecast
 
         public ForecastData Data { get; private set; }
 
-        public void LoadData(Action completeCallback)
+        public async UniTask LoadDataAsync()
         {
+            UniTaskCompletionSource completionSource = new UniTaskCompletionSource();
+
             _webModule.LoadData((isSuccess, dto) =>
             {
                 if (isSuccess)
@@ -30,8 +33,10 @@ namespace Services.Forecast
                     OnReady?.Invoke();
                 }
 
-                completeCallback?.Invoke();
+                completionSource.TrySetResult();
             });
+
+            await completionSource.Task;
         }
     }
 }

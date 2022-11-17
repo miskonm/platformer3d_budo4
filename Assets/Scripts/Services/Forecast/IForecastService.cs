@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 
 namespace Services.Forecast
 {
@@ -8,8 +9,7 @@ namespace Services.Forecast
         
         bool IsReady { get; }
         ForecastData Data { get; }
-
         
-        void LoadData(Action completeCallback = null);
+        UniTask LoadDataAsync();
     }
 }
